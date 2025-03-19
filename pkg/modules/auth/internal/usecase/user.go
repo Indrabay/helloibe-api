@@ -8,7 +8,7 @@ import (
 
 type UserUsecase interface {
 	// Login authenticates a user with username and password, returns JWT token if successful
-	Login(username, password string) (string, error)
+	Login(username, password string) (*entity.CompleteUser, string, error)
 	// Register creates a new user account in the system
 	Register(user *entity.User) error
 }
