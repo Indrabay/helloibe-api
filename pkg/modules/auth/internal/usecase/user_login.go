@@ -6,37 +6,51 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (uc *UserUc) Login(username, password string) (jwt string, err error) {
+func (uc *UserUc) Login(username, password string) (*entity.CompleteUser, string, error) {
 	var (
-		user  entity.User
-		token string
+		userDetail *entity.User
+		err        error
+		token      string
 	)
 
-	user, err = uc.UserRepo.GetByUsername(username)
+	userDetail, err = uc.UserRepo.GetByUsername(username)
 	if err != nil {
 		uc.Logger.Error("usecase", "UserUC_Login-GetUser", err)
-		return "", utils.ErrUserNotFound
+		return nil, "", utils.ErrUserNotFound
 	}
 
-	err = uc.validatePassword(user.Password, password)
+	err = uc.validatePassword(userDetail.Password, password)
 	if err != nil {
 		uc.Logger.Error("usecase", "UserUC_Login-validatePassword", err)
-		return "", utils.ErrUserNotFound
+		return nil, "", utils.ErrUserNotFound
 	}
 
 	claims := utils.JWTClaim{
-		Username: user.Username,
-		Name:     user.Name,
-		Role:     user.Role,
+		Username: userDetail.Username,
+		Name:     userDetail.Name,
+		Role:     userDetail.Role,
 	}
 
 	token, err = uc.JWTUtils.CreateToken(claims)
 	if err != nil {
 		uc.Logger.Error("usecase", "UserUC_Login-createToken", err)
-		return "", err
+		return nil, "", err
 	}
 
-	return token, nil
+	role, err := uc.UserRepo.GetRole(userDetail.Role)
+	if err != nil {
+		uc.Logger.Error("usecase", "UserUC_Login-getRole", err)
+		return nil, "", err
+	}
+
+	user := entity.CompleteUser{
+		ID:       userDetail.ID,
+		Username: userDetail.Username,
+		Name:     userDetail.Name,
+		Role:     *role,
+	}
+
+	return &user, token, nil
 }
 
 func (uc *UserUc) validatePassword(dbPassword, inputPassword string) error {

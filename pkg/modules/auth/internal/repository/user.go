@@ -6,7 +6,8 @@ import (
 )
 
 type UserRepository interface {
-	GetByUsername(username string) (entity.User, error)
+	GetByUsername(username string) (*entity.User, error)
+	GetRole(roleID int) (*entity.Role, error)
 	Insert(*entity.User) error
 }
 

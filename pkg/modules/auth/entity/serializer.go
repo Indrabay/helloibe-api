@@ -13,9 +13,10 @@ type MetaData struct {
 	Offset     int `json:"offset"`
 }
 
-func TokenSerializer(token string, statusCode int, message string) Response {
-	data := map[string]string{
+func LoginResponseSerializer(user any, token string, statusCode int, message string) Response {
+	data := map[string]interface{}{
 		"token": token,
+		"user":  user,
 	}
 
 	return Response{
