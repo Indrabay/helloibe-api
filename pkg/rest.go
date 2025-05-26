@@ -3,7 +3,9 @@ package pkg
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/indrabay/helloibe-api/config"
+	"github.com/indrabay/helloibe-api/pkg/middleware"
 	"github.com/indrabay/helloibe-api/pkg/modules/auth/handler"
+	warungHandler "github.com/indrabay/helloibe-api/pkg/modules/warung/handler"
 	"github.com/indrabay/helloibe-api/utils"
 	"go.uber.org/zap"
 )
@@ -38,6 +40,17 @@ func StartServer() *gin.Engine {
 	routes := gin.Default()
 	userGroup := routes.Group("/users")
 	userHandler.MountUser(userGroup)
+
+	warungConfig := config.WarungConfig{
+		WriteDB: writeDB,
+		ReadDB:  readDB,
+	}
+
+	warungHandler := warungHandler.NewProductHandler(warungConfig)
+
+	warungGroup := routes.Group("/warung")
+	warungGroup.Use(middleware.Auth())
+	warungHandler.MountProduct(warungGroup)
 
 	return routes
 }

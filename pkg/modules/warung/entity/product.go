@@ -7,6 +7,7 @@ const ProductTableName = "products"
 type Product struct {
 	ID        string    `json:"id" gorm:"column:id"`
 	Name      string    `json:"name" gorm:"column:name"`
+	SKU       string    `json:"sku" gorm:"column:sku"`
 	Barcode   string    `json:"barcode" gorm:"column:barcode"`
 	StoreID   int       `json:"store_id" gorm:"column:store_id"`
 	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`

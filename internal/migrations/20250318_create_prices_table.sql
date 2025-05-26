@@ -9,5 +9,5 @@ CREATE TABLE
         `created_by` varchar(255),
         `updated_by` varchar(255),
 
-        INDEX idx_product_id (`product_id`)
+        UNIQUE INDEX idx_product_id (`product_id`)
     );

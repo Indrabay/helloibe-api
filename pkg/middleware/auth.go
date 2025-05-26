@@ -14,39 +14,46 @@ func Auth() gin.HandlerFunc {
 		request := c.Request
 		auth := request.Header.Get("Authorization")
 		if len(auth) < 1 {
-			code = http.StatusUnauthorized
+			unauthorized(c)
+			return
 		}
 
 		splitAuth := strings.Split(auth, " ")
 		if len(splitAuth) < 2 {
-			code = http.StatusUnauthorized
+			unauthorized(c)
 			return
 		}
 
 		if splitAuth[0] != "Bearer" {
-			code = http.StatusUnauthorized
+			unauthorized(c)
 			return
 		}
 
 		jwtHelper := utils.NewJWT(utils.Config.SigningKey)
 		claims, err := jwtHelper.ValidateToken(splitAuth[1])
 		if err != nil {
-			code = http.StatusUnauthorized
+			unauthorized(c)
+			return
 		}
 
 		if code != 0 {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": "unauthorized user",
-			})
-			c.Abort()
+			unauthorized(c)
 			return
 		}
 
 		c.Set("token", splitAuth[1])
 		c.Set("username", claims.Username)
 		c.Set("name", claims.Name)
+		c.Set("role", claims.Role)
 
 		c.Next()
 	}
+}
+
+func unauthorized(c *gin.Context) {
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"code":    http.StatusUnauthorized,
+		"message": "unauthorized user",
+	})
+	c.Abort()
 }

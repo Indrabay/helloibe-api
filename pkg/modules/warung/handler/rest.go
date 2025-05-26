@@ -21,6 +21,5 @@ func NewProductHandler(cfg config.WarungConfig) *ProductHandler {
 }
 
 func (h *ProductHandler) MountProduct(group *gin.RouterGroup) {
-	group.Group("/products")
-	group.POST("/uploads", h.Upload)
+	group.POST("/products/upload", h.Upload)
 }
