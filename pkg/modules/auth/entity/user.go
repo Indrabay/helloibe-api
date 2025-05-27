@@ -1,17 +1,21 @@
 package entity
 
-import "github.com/indrabay/helloibe-api/utils"
+import (
+	"time"
+
+	"github.com/indrabay/helloibe-api/utils"
+)
 
 const UserTableName = "users"
 
 type User struct {
-	ID        int64  `json:"id" gorm:"column:id"`
-	Username  string `json:"username" gorm:"column:username"`
-	Password  string `json:"password" gorm:"column:password"`
-	Name      string `json:"name" gorm:"column:name"`
-	Role      int    `json:"role_id" gorm:"column:role_id"`
-	CreatedAt string `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt string `json:"updated_at" gorm:"column:updated_at"`
+	ID        int64     `json:"id" gorm:"column:id"`
+	Username  string    `json:"username" gorm:"column:username"`
+	Password  string    `json:"password" gorm:"column:password"`
+	Name      string    `json:"name" gorm:"column:name"`
+	Role      int       `json:"role_id" gorm:"column:role_id"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
 type CompleteUser struct {

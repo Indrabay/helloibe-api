@@ -1,10 +1,7 @@
 package usecase
 
 import (
-	"time"
-
 	"github.com/indrabay/helloibe-api/pkg/modules/auth/entity"
-	"github.com/indrabay/helloibe-api/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -15,8 +12,6 @@ func (uc *UserUc) Register(user *entity.User) error {
 	}
 
 	user.Password = hashedPassword
-	user.CreatedAt = time.Now().Format(utils.DateFormat)
-	user.UpdatedAt = time.Now().Format(utils.DateFormat)
 
 	err = uc.UserRepo.Insert(user)
 	if err != nil {

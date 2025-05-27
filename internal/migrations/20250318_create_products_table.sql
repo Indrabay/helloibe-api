@@ -10,7 +10,8 @@ CREATE TABLE
         `created_by` varchar(255),
         `updated_by` varchar(255),
 
-        INDEX idx_sku (`sku`),
+        UNIQUE INDEX idx_sku (`sku`),
+        UNIQUE INDEX idx_barcode (`barcode`),
         INDEX idx_store_sku (`store_id`, `sku`),
         INDEX idx_store_barcode (`store_id`, `barcode`)
     );

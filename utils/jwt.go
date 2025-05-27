@@ -20,6 +20,7 @@ type JWTClaim struct {
 	Username string
 	Name     string
 	Role     int
+	Level    int
 	jwt.RegisteredClaims
 }
 
@@ -32,6 +33,7 @@ func (j *JWTStruct) CreateToken(claim JWTClaim) (string, error) {
 		claim.Username,
 		claim.Name,
 		claim.Role,
+		claim.Level,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(5 * time.Hour)),
 			Issuer:    "helloibe.me-api",
