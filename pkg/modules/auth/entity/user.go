@@ -14,17 +14,19 @@ type User struct {
 	Password  string    `json:"password" gorm:"column:password"`
 	Name      string    `json:"name" gorm:"column:name"`
 	Role      int       `json:"role_id" gorm:"column:role_id"`
+	StoreID   int64     `json:"store_id"`
 	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
 type CompleteUser struct {
-	ID        int64  `json:"id" gorm:"column:id"`
-	Username  string `json:"username" gorm:"column:username"`
-	Name      string `json:"name" gorm:"column:name"`
-	CreatedAt string `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt string `json:"updated_at" gorm:"column:updated_at"`
-	Role      Role   `json:"role"`
+	ID        int64   `json:"id" gorm:"column:id"`
+	Username  string  `json:"username" gorm:"column:username"`
+	Name      string  `json:"name" gorm:"column:name"`
+	CreatedAt string  `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt string  `json:"updated_at" gorm:"column:updated_at"`
+	Role      Role    `json:"role"`
+	StoreIDs  []int64 `json:"store_ids"`
 }
 
 type LoginParam struct {

@@ -9,6 +9,8 @@ type UserRepository interface {
 	GetByUsername(username string) (*entity.User, error)
 	GetRole(roleID int) (*entity.Role, error)
 	Insert(*entity.User) error
+	GetUserStores(userID int64) ([]entity.UserStore, error)
+	InsertUserStore(userStore entity.UserStore) error
 }
 
 type UserRepo struct {
