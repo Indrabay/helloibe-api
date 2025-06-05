@@ -24,6 +24,7 @@ func (h *UserHandler) Register(c *gin.Context) {
 		Password: params.Password,
 		Name:     params.Name,
 		Role:     params.Role,
+		StoreID:  params.StoreID,
 	}
 
 	err := h.UserUsecase.Register(&user)
