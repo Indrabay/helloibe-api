@@ -61,6 +61,8 @@ func (u *ProductUc) UploadProductPrice(ctx *gin.Context, value []byte) error {
 			ID:            uuid.NewString(),
 			PurchasePrice: purchasePrice,
 			SellingPrice:  sellingPrice,
+			UpdatedBy:     username.(string),
+			CreatedBy:     username.(string),
 		}
 
 		priceLookup[product.Barcode] = price
