@@ -18,6 +18,16 @@ func (uc *UserUc) Register(user *entity.User) error {
 		return err
 	}
 
+	userStore := entity.UserStore{
+		UserID:  user.ID,
+		StoreID: user.StoreID,
+	}
+
+	err = uc.UserRepo.InsertUserStore(userStore)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

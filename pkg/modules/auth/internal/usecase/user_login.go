@@ -43,11 +43,25 @@ func (uc *UserUc) Login(username, password string) (*entity.CompleteUser, string
 		return nil, "", err
 	}
 
+	userStores, err := uc.UserRepo.GetUserStores(userDetail.ID)
+	if err != nil {
+		uc.Logger.Error("usecase", "UserUC_Login-getUserStore", err)
+		return nil, "", err
+	}
+
+	stores := []int64{}
+	if len(userStores) > 0 {
+		for _, store := range userStores {
+			stores = append(stores, store.StoreID)
+		}
+	}
+
 	user := entity.CompleteUser{
 		ID:       userDetail.ID,
 		Username: userDetail.Username,
 		Name:     userDetail.Name,
 		Role:     *role,
+		StoreIDs: stores,
 	}
 
 	return &user, token, nil

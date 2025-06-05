@@ -2,7 +2,6 @@ package handler
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -30,9 +29,6 @@ func (h *ProductHandler) Upload(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, nil)
 		return
 	}
-
-	username, exists := c.Get("username")
-	fmt.Println("haha", username, exists)
 
 	err = h.ProductUsecase.UploadProductPrice(c, buf.Bytes())
 	if err != nil {
