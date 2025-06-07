@@ -17,8 +17,7 @@ func NewUserHandler(cfg config.UserConfig) *UserHandler {
 	userRepo := repository.NewUserRepository(cfg.WriteDB, cfg.ReadDB)
 	jwtUtils := utils.NewJWT(utils.Config.SigningKey)
 
-	logger := utils.NewZapLogger(cfg.ZapLogger)
-	userUsecase := usecase.NewUserUsecase(userRepo, jwtUtils, logger)
+	userUsecase := usecase.NewUserUsecase(userRepo, jwtUtils)
 	return &UserHandler{
 		UserUsecase: userUsecase,
 	}

@@ -2,11 +2,13 @@ package usecase
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/indrabay/helloibe-api/pkg/modules/warung/entity"
 	"github.com/indrabay/helloibe-api/pkg/modules/warung/internal/repository"
 )
 
 type ProductUsecase interface {
 	UploadProductPrice(c *gin.Context, value []byte) error
+	GetProductPrice(barcode string, storeID int64) (entity.ProductPrice, error)
 }
 
 type ProductUc struct {
