@@ -16,6 +16,12 @@ type Product struct {
 	UpdatedBy string    `json:"updated_by" gorm:"column:updated_by"`
 }
 
+type ProductPrice struct {
+	Product
+	PurchasePrice float64 `json:"purchase_price"`
+	SellingPrice  float64 `json:"selling_price"`
+}
+
 func (Product) TableName() string {
 	return ProductTableName
 }

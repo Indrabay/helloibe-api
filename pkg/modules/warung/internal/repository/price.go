@@ -7,6 +7,7 @@ import (
 
 type PriceRepository interface {
 	InsertBulk(prices []entity.Price) error
+	GetPrice(productID string) (entity.Price, error)
 }
 
 type PriceRepo struct {

@@ -18,7 +18,7 @@ func ValidateStore() gin.HandlerFunc {
 			return
 		}
 		// in url params, store id is always 1 value for spesific store
-		store := c.Request.URL.Query()["stores"][0]
+		store := c.Param("store_id")
 		storeID, err := strconv.ParseInt(store, 10, 64)
 		if err != nil {
 			logger.Error("error parseInt store_id params",
@@ -38,6 +38,8 @@ func ValidateStore() gin.HandlerFunc {
 			Unauthorized(c)
 			return
 		}
+
+		c.Set("store_id", storeID)
 
 		c.Next()
 	}
