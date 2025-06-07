@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/indrabay/helloibe-api/config"
+	"github.com/indrabay/helloibe-api/pkg/middleware"
 	"github.com/indrabay/helloibe-api/pkg/modules/warung/internal/repository"
 	"github.com/indrabay/helloibe-api/pkg/modules/warung/internal/usecase"
 )
@@ -21,5 +22,7 @@ func NewProductHandler(cfg config.WarungConfig) *ProductHandler {
 }
 
 func (h *ProductHandler) MountProduct(group *gin.RouterGroup) {
-	group.POST("/products/upload", h.Upload)
+	group.Use(middleware.ValidateStore())
+	group.POST("/:store_id/products/upload", h.Upload)
+	group.GET("/:store_id/products/:barcode", h.SingleProduct)
 }

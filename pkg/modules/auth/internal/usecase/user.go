@@ -17,13 +17,11 @@ type UserUsecase interface {
 type UserUc struct {
 	UserRepo repository.UserRepository
 	JWTUtils utils.JWT
-	Logger   utils.Log
 }
 
-func NewUserUsecase(userRepo repository.UserRepository, jwtUtils utils.JWT, logger utils.Log) *UserUc {
+func NewUserUsecase(userRepo repository.UserRepository, jwtUtils utils.JWT) *UserUc {
 	return &UserUc{
 		UserRepo: userRepo,
 		JWTUtils: jwtUtils,
-		Logger:   logger,
 	}
 }

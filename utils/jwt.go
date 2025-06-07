@@ -21,6 +21,7 @@ type JWTClaim struct {
 	Name     string
 	Role     int
 	Level    int
+	Stores   []int64
 	jwt.RegisteredClaims
 }
 
@@ -34,9 +35,10 @@ func (j *JWTStruct) CreateToken(claim JWTClaim) (string, error) {
 		claim.Name,
 		claim.Role,
 		claim.Level,
+		claim.Stores,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(5 * time.Hour)),
-			Issuer:    "helloibe.me-api",
+			Issuer:    "helloibe.com-api",
 		},
 	}
 
@@ -58,7 +60,6 @@ func (j *JWTStruct) ValidateToken(token string) (JWTClaim, error) {
 		return []byte(Config.SigningKey), nil
 	})
 	if err != nil {
-		fmt.Println(err)
 		return JWTClaim{}, ErrUserNotAuthorized
 	}
 
