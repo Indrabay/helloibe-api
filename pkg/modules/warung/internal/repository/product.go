@@ -9,6 +9,7 @@ type ProductRepository interface {
 	InsertBulk(products []entity.Product) error
 	GetProductsByBarcode(barcodes []string) ([]entity.Product, error)
 	GetProductByBarcodeStore(barcode string, storeID int64) (entity.Product, error)
+	GetProducts(entity.GetProductsParams) ([]entity.Product, error)
 }
 
 type ProductRepo struct {

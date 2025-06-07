@@ -22,6 +22,13 @@ type ProductPrice struct {
 	SellingPrice  float64 `json:"selling_price"`
 }
 
+type GetProductsParams struct {
+	StoreID int
+	Barcode string
+	SKU     string
+	Name    string
+}
+
 func (Product) TableName() string {
 	return ProductTableName
 }

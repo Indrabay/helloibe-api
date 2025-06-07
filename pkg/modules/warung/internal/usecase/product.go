@@ -9,6 +9,7 @@ import (
 type ProductUsecase interface {
 	UploadProductPrice(c *gin.Context, value []byte) error
 	GetProductPrice(barcode string, storeID int64) (entity.ProductPrice, error)
+	GetProductPrices(entity.GetProductsParams) ([]entity.ProductPrice, error)
 }
 
 type ProductUc struct {
