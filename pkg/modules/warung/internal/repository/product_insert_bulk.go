@@ -8,6 +8,9 @@ import (
 const BatchSize = 50
 
 func (p *ProductRepo) InsertBulk(products []entity.Product) error {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
 	err := p.writeDB.Clauses(clause.OnConflict{
 		DoUpdates: clause.AssignmentColumns([]string{"name", "sku", "updated_by"}),
 	}).CreateInBatches(&products, BatchSize).Error

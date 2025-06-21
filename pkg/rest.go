@@ -38,6 +38,7 @@ func StartServer() *gin.Engine {
 	userHandler := handler.NewUserHandler(userConfig)
 
 	routes := gin.Default()
+	routes.Use(middleware.CORSMiddleware())
 	userGroup := routes.Group("/users")
 	userHandler.MountUser(userGroup)
 

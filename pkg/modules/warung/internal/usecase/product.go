@@ -10,6 +10,10 @@ type ProductUsecase interface {
 	UploadProductPrice(c *gin.Context, value []byte) error
 	GetProductPrice(barcode string, storeID int64) (entity.ProductPrice, error)
 	GetProductPrices(entity.GetProductsParams) ([]entity.ProductPrice, error)
+	GetStoreStatistics(storeID int64) (entity.StoreStatistics, error)
+	GetProductCount(storeID int64) (int64, error)
+	GetPriceCount(storeID int64) (int64, error)
+	GetProductPricesPaginated(entity.GetProductsParams) (entity.PaginatedProductResponse, error)
 }
 
 type ProductUc struct {

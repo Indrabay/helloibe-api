@@ -27,6 +27,23 @@ type GetProductsParams struct {
 	Barcode string
 	SKU     string
 	Name    string
+	Limit   int
+	Offset  int
+	Page    int
+}
+
+type PaginationMeta struct {
+	CurrentPage  int   `json:"current_page"`
+	TotalPages   int   `json:"total_pages"`
+	TotalItems   int64 `json:"total_items"`
+	ItemsPerPage int   `json:"items_per_page"`
+	HasNext      bool  `json:"has_next"`
+	HasPrev      bool  `json:"has_prev"`
+}
+
+type PaginatedProductResponse struct {
+	Data       []ProductPrice `json:"data"`
+	Pagination PaginationMeta `json:"pagination"`
 }
 
 func (Product) TableName() string {

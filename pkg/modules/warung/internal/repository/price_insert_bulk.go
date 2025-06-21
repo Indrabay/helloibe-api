@@ -6,6 +6,9 @@ import (
 )
 
 func (p *PriceRepo) InsertBulk(prices []entity.Price) error {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
 	err := p.writeDB.Clauses(clause.OnConflict{
 		DoUpdates: clause.AssignmentColumns([]string{"purchase_price", "selling_price", "updated_by"}),
 	}).CreateInBatches(&prices, BatchSize).Error

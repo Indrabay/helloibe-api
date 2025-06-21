@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/indrabay/helloibe-api/pkg/modules/auth/entity"
+	"github.com/indrabay/helloibe-api/utils"
 )
 
 func (h *UserHandler) Login(c *gin.Context) {
@@ -22,7 +23,10 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	user, token, err := h.UserUsecase.Login(params.Username, params.Password)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, entity.LoginResponseSerializer(nil, "", http.StatusUnauthorized, err.Error()))
+		if err == utils.ErrUserNotFound {
+			c.JSON(http.StatusUnauthorized, entity.LoginResponseSerializer(nil, "", http.StatusUnauthorized, err.Error()))
+		}
+		c.JSON(http.StatusInternalServerError, entity.LoginResponseSerializer(nil, "", http.StatusInternalServerError, err.Error()))
 		return
 	}
 

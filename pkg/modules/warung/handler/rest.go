@@ -26,4 +26,5 @@ func (h *ProductHandler) MountProduct(group *gin.RouterGroup) {
 	group.POST("/:store_id/products/upload", h.Upload)
 	group.GET("/:store_id/products/:barcode", h.SingleProduct)
 	group.GET("/:store_id/products/prices", h.GetProducts)
+	group.GET("/:store_id", h.GetStoreStatistics)
 }

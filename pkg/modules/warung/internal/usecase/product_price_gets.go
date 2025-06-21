@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"math"
 
 	"github.com/indrabay/helloibe-api/pkg/modules/warung/entity"
 )
@@ -54,4 +55,42 @@ func (uc *ProductUc) GetProductPrices(params entity.GetProductsParams) (res []en
 	}
 
 	return res, nil
+}
+
+// GetProductPricesPaginated returns paginated product prices with metadata
+func (uc *ProductUc) GetProductPricesPaginated(params entity.GetProductsParams) (response entity.PaginatedProductResponse, err error) {
+	// Get total count for pagination metadata
+	totalItems, err := uc.ProductRepo.GetProductsCount(params)
+	if err != nil {
+		return response, err
+	}
+
+	// Get paginated products
+	productPrices, err := uc.GetProductPrices(params)
+	if err != nil {
+		return response, err
+	}
+
+	// Calculate pagination metadata
+	totalPages := int(math.Ceil(float64(totalItems) / float64(params.Limit)))
+	if totalPages == 0 {
+		totalPages = 1
+	}
+
+	hasNext := params.Page < totalPages
+	hasPrev := params.Page > 1
+
+	response = entity.PaginatedProductResponse{
+		Data: productPrices,
+		Pagination: entity.PaginationMeta{
+			CurrentPage:  params.Page,
+			TotalPages:   totalPages,
+			TotalItems:   totalItems,
+			ItemsPerPage: params.Limit,
+			HasNext:      hasNext,
+			HasPrev:      hasPrev,
+		},
+	}
+
+	return response, nil
 }
