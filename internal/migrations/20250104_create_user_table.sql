@@ -7,5 +7,7 @@ CREATE TABLE
     `role_id` INTEGER NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_username (`username`)
+    `updated_by` VARCHAR(255) NULL,
+    INDEX idx_username (`username`),
+    INDEX idx_email (`email`)
   );

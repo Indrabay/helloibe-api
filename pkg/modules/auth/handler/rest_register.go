@@ -20,11 +20,14 @@ func (h *UserHandler) Register(c *gin.Context) {
 	}
 
 	user := entity.User{
-		Username: params.Username,
-		Password: params.Password,
-		Name:     params.Name,
-		Role:     params.Role,
-		StoreID:  params.StoreID,
+		Username:    params.Username,
+		Email:       params.Email,
+		Password:    params.Password,
+		Name:        params.Name,
+		PhoneNumber: params.PhoneNumber,
+		Role:        params.Role,
+		StoreID:     params.StoreID,
+		CreatedBy:   params.CreatedBy,
 	}
 
 	err := h.UserUsecase.Register(&user)

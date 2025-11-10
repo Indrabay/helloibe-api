@@ -55,3 +55,14 @@ func (r *ProductRepo) UpdateProduct(product entity.Product) error {
 
 	return r.writeDB.Save(&product).Error
 }
+
+// GetProductCountByCategoryAndStore counts products by category and store for SKU generation
+func (r *ProductRepo) GetProductCountByCategoryAndStore(categoryID int64, storeID int64) (count int64, err error) {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	err = r.readDB.Model(&entity.Product{}).
+		Where("category_id = ? AND store_id = ?", categoryID, storeID).
+		Count(&count).Error
+	return count, err
+}

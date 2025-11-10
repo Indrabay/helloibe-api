@@ -47,11 +47,13 @@ func StartServer() *gin.Engine {
 		ReadDB:  readDB,
 	}
 
-	warungHandler := warungHandler.NewProductHandler(warungConfig)
+	productHandler := warungHandler.NewProductHandler(warungConfig)
+	inventoryHandler := warungHandler.NewInventoryHandler(warungConfig)
 
 	warungGroup := routes.Group("/warung")
 	warungGroup.Use(middleware.Auth())
-	warungHandler.MountProduct(warungGroup)
+	productHandler.MountProduct(warungGroup)
+	inventoryHandler.MountInventory(warungGroup)
 
 	return routes
 }

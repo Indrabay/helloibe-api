@@ -9,13 +9,13 @@ import (
 
 type ProductRepository interface {
 	InsertBulk(products []entity.Product) error
-	GetProductsByBarcode(barcodes []string) ([]entity.Product, error)
-	GetProductByBarcodeStore(barcode string, storeID int64) (entity.Product, error)
+	GetProductBySKU(sku string, storeID int64) (entity.Product, error)
 	GetProducts(entity.GetProductsParams) ([]entity.Product, error)
 	GetStoreStatistics(storeID int64) (entity.StoreStatistics, error)
 	GetProductCountByStore(storeID int64) (int64, error)
 	GetPriceCountByStore(storeID int64) (int64, error)
 	GetProductsCount(entity.GetProductsParams) (int64, error)
+	GetProductCountByCategoryAndStore(categoryID int64, storeID int64) (int64, error)
 }
 
 type ProductRepo struct {

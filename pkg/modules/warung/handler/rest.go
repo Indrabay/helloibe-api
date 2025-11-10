@@ -24,7 +24,31 @@ func NewProductHandler(cfg config.WarungConfig) *ProductHandler {
 func (h *ProductHandler) MountProduct(group *gin.RouterGroup) {
 	group.Use(middleware.ValidateStore())
 	group.POST("/:store_id/products/upload", h.Upload)
-	group.GET("/:store_id/products/:barcode", h.SingleProduct)
+	group.GET("/:store_id/products/:sku", h.SingleProduct)
 	group.GET("/:store_id/products/prices", h.GetProducts)
+	group.GET("/:store_id/products/prices/all", h.GetAllProductPrices)
 	group.GET("/:store_id", h.GetStoreStatistics)
+}
+
+type InventoryHandler struct {
+	InventoryUsecase usecase.InventoryUsecase
+}
+
+func NewInventoryHandler(cfg config.WarungConfig) *InventoryHandler {
+	inventoryRepo := repository.NewInventoryRepository(cfg.WriteDB, cfg.ReadDB)
+	inventoryDetailRepo := repository.NewInventoryDetailRepository(cfg.WriteDB, cfg.ReadDB)
+	productRepo := repository.NewProductRepository(cfg.WriteDB, cfg.ReadDB)
+	inventoryUc := usecase.NewInventoryUsecase(inventoryRepo, inventoryDetailRepo, productRepo)
+	return &InventoryHandler{
+		InventoryUsecase: inventoryUc,
+	}
+}
+
+func (h *InventoryHandler) MountInventory(group *gin.RouterGroup) {
+	group.Use(middleware.ValidateStore())
+	group.POST("/:store_id/inventories", h.Create)
+	group.PATCH("/:store_id/inventories/:id", h.Update)
+	group.GET("/:store_id/inventories/:id", h.GetByID)
+	group.GET("/:store_id/inventories", h.GetByFilter)
+	group.POST("/:store_id/inventories/upload", h.Upload)
 }

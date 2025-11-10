@@ -9,24 +9,32 @@ import (
 const UserTableName = "users"
 
 type User struct {
-	ID        int64     `json:"id" gorm:"column:id"`
-	Username  string    `json:"username" gorm:"column:username"`
-	Password  string    `json:"password" gorm:"column:password"`
-	Name      string    `json:"name" gorm:"column:name"`
-	Role      int       `json:"role_id" gorm:"column:role_id"`
-	StoreID   int64     `json:"store_id" gorm:"-"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
+	ID          int64     `json:"id" gorm:"column:id"`
+	Username    string    `json:"username" gorm:"column:username"`
+	Email       string    `json:"email" gorm:"column:email"`
+	Password    string    `json:"password" gorm:"column:password"`
+	Name        string    `json:"name" gorm:"column:name"`
+	PhoneNumber string    `json:"phone_number" gorm:"column:phone_number"`
+	Role        int       `json:"role_id" gorm:"column:role_id"`
+	StoreID     int64     `json:"store_id" gorm:"-"`
+	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`
+	CreatedBy   string    `json:"created_by" gorm:"column:created_by"`
+	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`
+	UpdatedBy   string    `json:"updated_by" gorm:"column:updated_by"`
 }
 
 type CompleteUser struct {
-	ID        int64   `json:"id" gorm:"column:id"`
-	Username  string  `json:"username" gorm:"column:username"`
-	Name      string  `json:"name" gorm:"column:name"`
-	CreatedAt string  `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt string  `json:"updated_at" gorm:"column:updated_at"`
-	Role      Role    `json:"role"`
-	StoreIDs  []int64 `json:"store_ids"`
+	ID          int64   `json:"id" gorm:"column:id"`
+	Username    string  `json:"username" gorm:"column:username"`
+	Email       string  `json:"email" gorm:"column:email"`
+	Name        string  `json:"name" gorm:"column:name"`
+	PhoneNumber string  `json:"phone_number" gorm:"column:phone_number"`
+	CreatedAt   string  `json:"created_at" gorm:"column:created_at"`
+	CreatedBy   string  `json:"created_by" gorm:"column:created_by"`
+	UpdatedAt   string  `json:"updated_at" gorm:"column:updated_at"`
+	UpdatedBy   string  `json:"updated_by" gorm:"column:updated_by"`
+	Role        Role    `json:"role"`
+	StoreIDs    []int64 `json:"store_ids"`
 }
 
 type LoginParam struct {
@@ -43,15 +51,18 @@ func (param *LoginParam) Validate() error {
 }
 
 type RegisterParam struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Name     string `json:"name"`
-	Role     int    `json:"role"`
-	StoreID  int64  `json:"store"`
+	Username    string `json:"username"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	Name        string `json:"name"`
+	PhoneNumber string `json:"phone_number"`
+	Role        int    `json:"role"`
+	StoreID     int64  `json:"store"`
+	CreatedBy   string `json:"created_by"`
 }
 
 func (param *RegisterParam) Validate() error {
-	if param.Username == "" || param.Password == "" || param.Name == "" || param.Role == 0 {
+	if param.Username == "" || param.Email == "" || param.Password == "" || param.Name == "" || param.Role == 0 {
 		return utils.ErrCreateUserRequiredParam
 	}
 

@@ -6,12 +6,12 @@ import (
 	"github.com/indrabay/helloibe-api/pkg/modules/warung/entity"
 )
 
-func (uc *ProductUc) GetProductPrice(barcode string, storeID int64) (res entity.ProductPrice, err error) {
+func (uc *ProductUc) GetProductPrice(sku string, storeID int64) (res entity.ProductPrice, err error) {
 	var (
 		product entity.Product
 		price   entity.Price
 	)
-	product, err = uc.ProductRepo.GetProductByBarcodeStore(barcode, storeID)
+	product, err = uc.ProductRepo.GetProductBySKU(sku, storeID)
 	if err != nil {
 		return res, err
 	}

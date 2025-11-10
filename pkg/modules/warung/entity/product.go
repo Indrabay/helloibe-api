@@ -5,15 +5,15 @@ import "time"
 const ProductTableName = "products"
 
 type Product struct {
-	ID        string    `json:"id" gorm:"column:id"`
-	Name      string    `json:"name" gorm:"column:name"`
-	SKU       string    `json:"sku" gorm:"column:sku"`
-	Barcode   string    `json:"barcode" gorm:"column:barcode"`
-	StoreID   int       `json:"store_id" gorm:"column:store_id"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
-	CreatedBy string    `json:"created_by" gorm:"column:created_by"`
-	UpdatedBy string    `json:"updated_by" gorm:"column:updated_by"`
+	ID         string    `json:"id" gorm:"column:id"`
+	Name       string    `json:"name" gorm:"column:name"`
+	SKU        string    `json:"sku" gorm:"column:sku"`
+	CategoryID int64     `json:"category_id" gorm:"column:category_id"`
+	StoreID    int       `json:"store_id" gorm:"column:store_id"`
+	CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`
+	CreatedBy  string    `json:"created_by" gorm:"column:created_by"`
+	UpdatedBy  string    `json:"updated_by" gorm:"column:updated_by"`
 }
 
 type ProductPrice struct {
@@ -23,13 +23,13 @@ type ProductPrice struct {
 }
 
 type GetProductsParams struct {
-	StoreID int
-	Barcode string
-	SKU     string
-	Name    string
-	Limit   int
-	Offset  int
-	Page    int
+	StoreID    int
+	CategoryID int64
+	SKU        string
+	Name       string
+	Limit      int
+	Offset     int
+	Page       int
 }
 
 type PaginationMeta struct {

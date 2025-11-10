@@ -10,6 +10,7 @@ type UserRepository interface {
 	GetRole(roleID int) (*entity.Role, error)
 	Insert(*entity.User) error
 	GetUserStores(userID int64) ([]entity.UserStore, error)
+	GetUserStoreCount(userID int64) (int64, error)
 	InsertUserStore(userStore entity.UserStore) error
 }
 

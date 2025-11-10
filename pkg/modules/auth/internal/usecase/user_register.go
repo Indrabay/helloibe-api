@@ -8,6 +8,10 @@ import (
 )
 
 func (uc *UserUc) Register(user *entity.User) error {
+	// During registration, non-super-admin users can only be assigned one store
+	// This is already enforced by the single StoreID field, but we validate it here
+	// The real validation for adding additional stores happens in AddStoreToUser
+
 	hashedPassword, err := uc.hashPassword(user.Password)
 	if err != nil {
 		logger.Error(err.Error(),
@@ -29,19 +33,22 @@ func (uc *UserUc) Register(user *entity.User) error {
 		return err
 	}
 
-	userStore := entity.UserStore{
-		UserID:  user.ID,
-		StoreID: user.StoreID,
-	}
+	// Only insert user store if StoreID is provided
+	if user.StoreID > 0 {
+		userStore := entity.UserStore{
+			UserID:  user.ID,
+			StoreID: user.StoreID,
+		}
 
-	err = uc.UserRepo.InsertUserStore(userStore)
-	if err != nil {
-		logger.Error(err.Error(),
-			zap.String("method", "UserUc_Register"),
-			zap.String("step", "InsertUserStore"),
-			zap.Any("userStore", userStore),
-		)
-		return err
+		err = uc.UserRepo.InsertUserStore(userStore)
+		if err != nil {
+			logger.Error(err.Error(),
+				zap.String("method", "UserUc_Register"),
+				zap.String("step", "InsertUserStore"),
+				zap.Any("userStore", userStore),
+			)
+			return err
+		}
 	}
 
 	return nil

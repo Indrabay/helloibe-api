@@ -11,6 +11,8 @@ type UserUsecase interface {
 	Login(username, password string) (*entity.CompleteUser, string, error)
 	// Register creates a new user account in the system
 	Register(user *entity.User) error
+	// AddStoreToUser adds a store to a user, with validation for one store per user (except super admin)
+	AddStoreToUser(userID int64, storeID int64, roleID int) error
 }
 
 // TODO: add metrics

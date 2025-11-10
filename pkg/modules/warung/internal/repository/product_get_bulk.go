@@ -12,9 +12,9 @@ func (r *ProductRepo) GetProducts(params entity.GetProductsParams) (res []entity
 	query := "SELECT * FROM products WHERE store_id = ?"
 	bindParam = append(bindParam, params.StoreID)
 
-	if params.Barcode != "" {
-		query += " AND barcode = ?"
-		bindParam = append(bindParam, params.Barcode)
+	if params.CategoryID > 0 {
+		query += " AND category_id = ?"
+		bindParam = append(bindParam, params.CategoryID)
 	}
 
 	if params.SKU != "" {
@@ -58,9 +58,9 @@ func (r *ProductRepo) GetProductsCount(params entity.GetProductsParams) (count i
 	query := "SELECT COUNT(*) FROM products WHERE store_id = ?"
 	bindParam = append(bindParam, params.StoreID)
 
-	if params.Barcode != "" {
-		query += " AND barcode = ?"
-		bindParam = append(bindParam, params.Barcode)
+	if params.CategoryID > 0 {
+		query += " AND category_id = ?"
+		bindParam = append(bindParam, params.CategoryID)
 	}
 
 	if params.SKU != "" {

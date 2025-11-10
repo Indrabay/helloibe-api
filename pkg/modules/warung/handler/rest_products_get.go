@@ -42,9 +42,11 @@ func (h *ProductHandler) assignQueryParam(c *gin.Context) entity.GetProductsPara
 	queryParam := c.Request.URL.Query()
 
 	// Product search parameters
-	barcode := queryParam["barcode"]
-	if len(barcode) > 0 {
-		result.Barcode = barcode[0]
+	categoryID := queryParam["category_id"]
+	if len(categoryID) > 0 {
+		if categoryIDVal, err := strconv.ParseInt(categoryID[0], 10, 64); err == nil && categoryIDVal > 0 {
+			result.CategoryID = categoryIDVal
+		}
 	}
 
 	sku := queryParam["sku"]
